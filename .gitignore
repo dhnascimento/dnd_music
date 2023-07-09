@@ -32,7 +32,7 @@ web/.env.local
 web/.env.development.local
 web/.env.test.local
 web/.env.production.local
-
+web/.env
 web/npm-debug.log*
 web/yarn-debug.log*
 web/yarn-error.log*
