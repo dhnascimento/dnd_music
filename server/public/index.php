@@ -12,4 +12,9 @@ $app->get('/', function (Request $request, Response $response, $args) {
     return $response;
 });
 
+$app->post('/code', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("Code received!");
+    return $response;
+});
+
 $app->run();
