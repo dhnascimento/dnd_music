@@ -10,10 +10,8 @@ export default function Start() {
     const handleCodeRequest = async () => {
       const request = await fetch("http://localhost:8000/code", {
         method: "POST",
-        mode: "no-cors",
         headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": '*'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ code: code }),
       });
