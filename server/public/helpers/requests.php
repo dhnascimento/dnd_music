@@ -34,3 +34,23 @@ function getToken(string $code): string
 
     return $accessToken;
 }
+
+function getUserItems(string $token): array
+{
+
+    $url = 'https://api.spotify.com/v1/me/top/tracks?limit=20';
+    // @TODO replace by env
+    $redirectUrl = 'http://localhost:3000/';
+
+    $client = new Client();
+
+    $request = $client->get($url, [
+        'headers' => [
+            'Authorization' => 'Bearer ' . $token
+        ]
+    ]);
+    
+    $data = json_decode($request->getBody(), true);
+
+    return $data;
+}

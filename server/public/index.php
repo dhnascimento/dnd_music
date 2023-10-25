@@ -4,7 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 
-
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/helpers/requests.php';
 
@@ -22,17 +21,28 @@ $app->add(function ($request, $handler) {
             ->withHeader('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
-$app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
-    return $response;
+$app->get('/user', function (Request $request, Response $response, $args) {
+    
+    if (isset($_SESSION['token'])) {
+        // Use the token from the session for authentication
+        $token = $_SESSION['token'];
+        $data = getUserItems($token);
+    } else {
+        // Handle the case when the token is not in the session
+        $data = json_encode(['error' => 'Token not found']);
+    }
+
+    $response->getBody()->write($data);
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/code', function (Request $request, Response $response, $args) {
     $parsedBody = $request->getBody()->getContents();
     $jsonBody = json_decode($parsedBody);
     $token = getToken($jsonBody->code);
-    $tokenObj = json_encode(['token' => $token]);
-    $response->getBody()->write($tokenObj);
+    $userData = getUserItems($token);
+    $userObj = json_encode(['data' => $userData]);
+    $response->getBody()->write($userObj);
     return $response->withHeader('Content-Type', 'application/json');
 });
 
