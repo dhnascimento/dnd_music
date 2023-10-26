@@ -7,6 +7,8 @@ use Slim\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/helpers/requests.php';
 
+use DnDGenerator\SpotifyHandler;
+
 $app = AppFactory::create();
 
 $app->options('/{routes:.+}', function ($request, $response, $args) {
@@ -36,13 +38,29 @@ $app->get('/user', function (Request $request, Response $response, $args) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+//route to debug on postman
+$app->post('/token', function (Request $request, Response $response, $args) {
+    $parsedBody = $request->getBody()->getContents();
+    $jsonBody = json_decode($parsedBody);
+    $token = getSpotifyToken($jsonBody->code);
+    $response->getBody()->write($token);
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/code', function (Request $request, Response $response, $args) {
     $parsedBody = $request->getBody()->getContents();
     $jsonBody = json_decode($parsedBody);
-    $token = getToken($jsonBody->code);
-    $userData = getUserItems($token);
-    $userObj = json_encode(['data' => $userData]);
-    $response->getBody()->write($userObj);
+    if (isset($jsonBody->token)) {
+        $token = $jsonBody->token;
+    } else {
+        $token = getSpotifyToken($jsonBody->code);
+    }
+    $spotifyData = new SpotifyHandler($token, 'https://api.spotify.com/v1/');
+    $spotifyData->getUserItems();
+    $artistsFromTracks = $spotifyData->filterArtists();
+    $artistsList = $spotifyData->fetchArtistData($artistsFromTracks, true);
+    $artistsObj = json_encode($artistsList);    
+    $response->getBody()->write($artistsObj);
     return $response->withHeader('Content-Type', 'application/json');
 });
 
