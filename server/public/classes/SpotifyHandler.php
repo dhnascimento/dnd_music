@@ -46,8 +46,6 @@ class SpotifyHandler extends APIHandler {
                                 ]
             ];
         
-        
-        
         }
 
         $this->tracksResponse = $tracksResponse;
@@ -85,6 +83,8 @@ class SpotifyHandler extends APIHandler {
                 $apiData = $this->fetchAndDecode($artist['href'], true);
                 $info[] = $apiData;
             }
+
+            $this->tracksResponse[$trackId]['artists'] = [...$info];
     
             $artists[$trackId] = [...$info];
         }
@@ -104,8 +104,8 @@ class SpotifyHandler extends APIHandler {
 
         $tracksFeaturesReq = $this->fetchAndDecode('audio-features?ids=' . $tracksList);
 
-        foreach($tracksFeaturesReq as $trackFeature) {
-            $this->tracksResponse[$trackFeature['id']] = [
+        foreach($tracksFeaturesReq['audio_features'] as $trackFeature) {
+            $this->tracksResponse[$trackFeature['id']] += [
                 'danceability' => $trackFeature['danceability'],
                 'energy' => $trackFeature['energy'],
                 'loudness' => $trackFeature['loudness'],
@@ -123,21 +123,6 @@ class SpotifyHandler extends APIHandler {
         }
 
         return null;
-    }
-
-    public function createTracksInfoArray(array|null $artistsItems = null, array|null $tracksFeatures = null) {
-        if (!isset($artistsItems)) {
-            $artistsItems = $this->artistsItems;
-        }
-
-        if (!isset($tracksFeatures)) {
-            $tracksFeatures = $this->$tracksFeatures;
-        }
-
-        
-        
-        
-        return;
     }
 
 }

@@ -57,10 +57,12 @@ $app->post('/code', function (Request $request, Response $response, $args) {
     }
     $spotifyData = new SpotifyHandler($token, 'https://api.spotify.com/v1/');
     $spotifyData->getUserItems();
+    $spotifyData->createTracksResponse();
     $artistsFromTracks = $spotifyData->filterArtists();
-    $artistsList = $spotifyData->fetchArtistData($artistsFromTracks, true);
-    $artistsObj = json_encode($artistsList);    
-    $response->getBody()->write($artistsObj);
+    $spotifyData->fetchArtistData($artistsFromTracks);
+    $spotifyData->fetchTracksAudioFeatures();
+    $tracksResponse = json_encode($spotifyData->tracksResponse);
+    $response->getBody()->write($tracksResponse);
     return $response->withHeader('Content-Type', 'application/json');
 });
 
