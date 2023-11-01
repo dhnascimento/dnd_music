@@ -114,7 +114,8 @@ class SpotifyHandler extends APIHandler {
                 'acousticness' => $trackFeature['acousticness'],
                 'liveness' => $trackFeature['liveness'],
                 'valence' => $trackFeature['valence'],
-                'tempo' => $trackFeature['tempo']
+                'tempo' => $trackFeature['tempo'],
+                'duration_ms' => $trackFeature['duration_ms']
             ];
         }
 
