@@ -4,11 +4,24 @@ namespace DnDGenerator;
 
 class SpotifyHandler extends APIHandler {
 
+    public array $userProfile;
     public array $userItems;
     public array $artistsItems;
     public array $tracksIds;
     public array $tracksFeatures;
     public array $tracksResponse;
+
+    public function getUserProfile(bool $output = false):?array {
+
+        $userProfile = $this->fetchAndDecode('me');
+
+        $this->tracksResponse['username'] = $userProfile['display_name'];
+        $this->tracksResponse['country'] = $userProfile['country'];
+        $this->tracksResponse['images'] = $userProfile['images'];
+        
+        return $output ? $userProfile : null;
+
+    }
 
     public function getUserItems(bool $output = false):?array {
     
@@ -16,11 +29,7 @@ class SpotifyHandler extends APIHandler {
         
         $this->userItems = $userData['items'];
 
-        if ($output) {
-            return $userData['items'];
-        }
-
-        return null;
+        return $output ? $userData['items'] : null;
 
     }
 
@@ -35,7 +44,7 @@ class SpotifyHandler extends APIHandler {
         foreach($this->userItems as $item) {
 
             $this->setTrackId($item['id']);
-            $tracksResponse[$item['id']] = [
+            $tracksResponse['tracks'][$item['id']] = [
                 'name'       => $item['name'],
                 'explicit'   => $item['explicit'],
                 'popularity' => $item['popularity'],
@@ -84,7 +93,7 @@ class SpotifyHandler extends APIHandler {
                 $info[] = $apiData;
             }
 
-            $this->tracksResponse[$trackId]['artists'] = [...$info];
+            $this->tracksResponse['tracks'][$trackId]['artists'] = [...$info];
     
             $artists[$trackId] = [...$info];
         }
@@ -105,7 +114,7 @@ class SpotifyHandler extends APIHandler {
         $tracksFeaturesReq = $this->fetchAndDecode('audio-features?ids=' . $tracksList);
 
         foreach($tracksFeaturesReq['audio_features'] as $trackFeature) {
-            $this->tracksResponse[$trackFeature['id']] += [
+            $this->tracksResponse['tracks'][$trackFeature['id']] += [
                 'danceability' => $trackFeature['danceability'],
                 'energy' => $trackFeature['energy'],
                 'loudness' => $trackFeature['loudness'],
@@ -124,6 +133,43 @@ class SpotifyHandler extends APIHandler {
         }
 
         return null;
+    }
+
+    public function calculateAverages():void {
+
+        $featuresKeys = [
+            'danceability',
+            'energy',
+            'loudness',
+            'key',
+            'speechiness',
+            'acousticness',
+            'liveness',
+            'valence',
+            'tempo',
+            'duration_ms',
+            'popularity'
+        ];
+        $series = [];
+
+        foreach($featuresKeys as $key) {
+            $series[$key] = [];
+        }
+
+
+        foreach($this->tracksResponse['tracks'] as $trackId => $trackInfo) {
+            foreach($trackInfo as $key => $value) {
+                if (in_array($key, $featuresKeys)) {
+                    $series[$key][] = $value;
+                }
+            }
+        }
+
+        
+        foreach($series as $key => $value) {
+            $this->tracksResponse[$key . '_avg'] = round(array_sum($value) / count($value),4);
+        }
+
     }
 
 }

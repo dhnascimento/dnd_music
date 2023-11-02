@@ -58,9 +58,11 @@ $app->post('/code', function (Request $request, Response $response, $args) {
     $spotifyData = new SpotifyHandler($token, 'https://api.spotify.com/v1/');
     $spotifyData->getUserItems();
     $spotifyData->createTracksResponse();
+    $spotifyData->getUserProfile();
     $artistsFromTracks = $spotifyData->filterArtists();
     $spotifyData->fetchArtistData($artistsFromTracks);
     $spotifyData->fetchTracksAudioFeatures();
+    $spotifyData->calculateAverages();
     $tracksResponse = json_encode($spotifyData->tracksResponse);
     $response->getBody()->write($tracksResponse);
     return $response->withHeader('Content-Type', 'application/json');
