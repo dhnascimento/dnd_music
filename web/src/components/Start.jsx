@@ -9,14 +9,26 @@ export default function Start() {
     const params = new URLSearchParams(document.location.search);
 
     const handleCodeRequest = async () => {
-      const request = await fetch("http://localhost:8000/code", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: code }),
-      });
-      console.log(request);
+      
+      try {
+        const req = await fetch("http://localhost:8000/code", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ code: code }),
+        });
+  
+        const data = await req.json();
+        console.log(data)
+  
+        setUserData(data);
+        
+      } catch (error) {
+        console.error(error);
+      }
+
+  
     };
 
     if (params) {
@@ -30,23 +42,10 @@ export default function Start() {
     return () => {};
   }, [code]);
 
-const handleUserData = async () => {
-  try {
-    const response = await fetch("http://localhost:8000/user");
-    if (!response) {
-      throw new Error('Error on request');
-    }
-    const json = await response.json();
-    setUserData(json);
-  } catch (e) {
-    console.log(e);
-  }
-
-}
 
   return (
     <React.Fragment>
-        {code && <><p>We have a code!</p><button onClick={handleUserData}>Click</button></>}
+        {code && <><p>We have a code!</p></>}
         {!code &&  <a href={loginUrl}>Start Authorization</a>}
         {userData && <h3>User data received!</h3>}
     </React.Fragment>
