@@ -18,6 +18,7 @@ class SpotifyHandler extends APIHandler {
         $this->tracksResponse['username'] = $userProfile['display_name'];
         $this->tracksResponse['country'] = $userProfile['country'];
         $this->tracksResponse['images'] = $userProfile['images'];
+        $this->tracksResponse['genres'] = [];
         
         return $output ? $userProfile : null;
 
@@ -91,6 +92,12 @@ class SpotifyHandler extends APIHandler {
             foreach($artistInfo as $artist) {
                 $apiData = $this->fetchAndDecode($artist['href'], true);
                 $info[] = $apiData;
+
+                if (!empty($apiData['genres'])) {
+                    foreach($apiData['genres'] as $genre) {
+                        $this->tracksResponse['genres'][] = $genre;
+                    }
+                }
             }
 
             $this->tracksResponse['tracks'][$trackId]['artists'] = [...$info];
