@@ -1,46 +1,8 @@
 import React from "react";
 import { loginUrl } from "../helpers/authUrl";
 
-export default function Start() {
-  const [code, setCode] = React.useState(null);
-  const [userData, setUserData] = React.useState(null);
+export default function Start({ code, userData }) {
 
-  React.useEffect(() => {
-    const params = new URLSearchParams(document.location.search);
-
-    const handleCodeRequest = async () => {
-      
-      try {
-        const req = await fetch("http://localhost:8000/code", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ code: code }),
-        });
-  
-        const data = await req.json();
-        console.log(data)
-  
-        setUserData(data);
-        
-      } catch (error) {
-        console.error(error);
-      }
-
-  
-    };
-
-    if (params) {
-      setCode(params.get("code"));
-    }
-
-    if (code) {
-      handleCodeRequest();
-    }
-
-    return () => {};
-  }, [code]);
 
 
   return (
