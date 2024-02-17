@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/helpers/requests.php';
+require_once __DIR__ . '/helpers/common.php';
 
 use DnDGenerator\SpotifyHandler;
 
@@ -17,25 +18,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 $app->add(function ($request, $handler) {
     $response = $handler->handle($request);
-    return $response
-            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-            ->withHeader('Access-Control-Allow-Headers','Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, PATCH, OPTIONS');
-});
-
-$app->get('/user', function (Request $request, Response $response, $args) {
-    
-    if (isset($_SESSION['token'])) {
-        // Use the token from the session for authentication
-        $token = $_SESSION['token'];
-        $data = getUserItems($token);
-    } else {
-        // Handle the case when the token is not in the session
-        $data = json_encode(['error' => 'Token not found']);
-    }
-
-    $response->getBody()->write($data);
-    return $response->withHeader('Content-Type', 'application/json');
+    return $response;
 });
 
 //route to debug on postman
