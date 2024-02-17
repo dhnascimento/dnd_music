@@ -17,7 +17,8 @@ server/yarn-error.log
 server/.fleet
 server/.idea
 server/.vscode
-
+/env
+nginx.conf
 # dependencies
 web/node_modules
 web/.pnp

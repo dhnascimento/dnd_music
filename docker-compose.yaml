@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    env_file:
+      - ./env/web.env    
+  nginx:
+    image: "nginx:stable-alpine"
+    ports:
+      -  "8000:80"
+    volumes:
+      - ./server:/var/www/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  php:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    ports:
+      - "9000:9000"  
+    volumes:
+      - ./server:/var/www/html:delegated
+      - ./env/php.env:/var/www/html/.env
+  composer:
+    build:
+      context: ./dockerfiles
+      dockerfile: composer.dockerfile
+    volumes:
+      - ./server:/var/www/html
+
+
+   
