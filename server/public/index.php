@@ -9,6 +9,7 @@ require_once __DIR__ . '/helpers/requests.php';
 require_once __DIR__ . '/helpers/common.php';
 
 use DnDGenerator\SpotifyHandler;
+use DnDGenerator\OpenAIHandler;
 
 $app = AppFactory::create();
 
@@ -51,6 +52,13 @@ $app->post('/code', function (Request $request, Response $response, $args) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/character', function (Request $request, Response $response, $args) {
+    $parsedBody = $request->getBody()->getContents();
+    $openAI = new OpenAIHandler();
+    $characterSheet = $openAI->generateCharacterSheet($parsedBody);
+    $response->getBody()->write(json_encode($characterSheet));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 /**
  * Catch-all route to serve a 404 Not Found page if none of the routes match
  * NOTE: make sure this route is defined last
