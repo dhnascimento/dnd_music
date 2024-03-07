@@ -17,6 +17,7 @@ server/yarn-error.log
 server/.fleet
 server/.idea
 server/.vscode
+server/public/helpers/*.txt
 /env
 nginx.conf
 # dependencies
