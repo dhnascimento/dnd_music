@@ -30,7 +30,6 @@ export default function Start({ code, userData }) {
           <button onClick={handleClick}>Send Prompt</button>
           </>
         }
-
     </React.Fragment>
   );
 }

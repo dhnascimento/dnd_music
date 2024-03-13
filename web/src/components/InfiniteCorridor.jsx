@@ -1,9 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
+import TextBox from "./TextBox";
 
 export default function InfiniteCorridor() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [allParagraphsTyped, setAllParagraphsTyped] = useState(false);
   const corridorRef = useRef(null);
+
+  const paragraphs = [
+    "This is the first paragraph to be typed with the typewriter effect.",
+    "Here comes the second paragraph, continuing the JRPG style text box experience.",
+    "Feel free to add as many paragraphs as you need for your narrative!",
+  ];
+
+  const handleStartTyping = () => {
+    setIsTyping(true);
+  };
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -34,11 +47,14 @@ export default function InfiniteCorridor() {
       >
         <h1 id="title__start">Welcome to the Magic Beats Dungeon!</h1>
         <div id="hud__wrapper">
-          <div className="text_box">
-            <p>Welcome, brave something!</p>
-            <p>Here begins your quest to discover your inner hero.</p>
-          </div>
-          <button className="btn__primary" onClick={handleToggleAnimation}>
+          <TextBox
+            paragraphs={paragraphs}
+            isTyping={isTyping}
+            setIsTyping={setIsTyping}
+            allParagraphsTyped={allParagraphsTyped}
+            setAllParagraphsTyped={setAllParagraphsTyped}
+          />
+          <button className="btn__primary" onClick={handleStartTyping}>
             Start
           </button>
         </div>
