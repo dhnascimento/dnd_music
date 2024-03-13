@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import Start from './components/Start';
+import InfiniteCorridor from './components/InfiniteCorridor';
 import './App.css';
 import React from 'react';
 import { mockResponse } from './helpers/mockResponse';
@@ -54,13 +55,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload!
         </p>
-        <Start code={code} userData={userData} />
-      </header>
+      </header> */}
+      <InfiniteCorridor />
+      {/* <Start code={code} userData={userData} /> */}
     </div>
   );
 }

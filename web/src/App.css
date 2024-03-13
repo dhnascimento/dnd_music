@@ -1,17 +1,9 @@
-.App {
-  text-align: center;
+* {
+  font-family: "Bubblegum Sans", sans-serif;
+  font-size: 14px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -28,11 +20,108 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+#title__start {
+  -webkit-text-stroke: 1px #e4da07;
+  color: #e40712;
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 5px #282c34;
+}
+
+#hud__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.text_box {
+  /* Rectangle 1 */
+box-sizing: border-box;
+width: 75%;
+min-height: 200px;
+color: #fff;
+background: linear-gradient(180deg, #0B05DB 0%, #02004A 100%);
+border: 2px solid #FFFFFF;
+border-radius: 7px;
+
+  p {
+    padding: 0 0.5rem;
+    font-family: "Press Start 2P", system-ui;
   }
-  to {
-    transform: rotate(360deg);
+
+}
+
+
+.corridor, .corridorMobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.corridor {
+  background-image: url('public/sprites/sprites-1.png'); /* Ensure no tiling of the sprite sheet */
+  background-repeat: no-repeat;
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  animation: play 3s steps(3) infinite;
+}
+
+.corridorMobile {
+  background-image: url('public/sprites/sprites-mobile-1.png');
+  background-repeat: no-repeat;
+  width: 360px;
+  height: 400px; /* Adjust height for mobile layout */
+  animation: play-mobile 3s steps(3) infinite;
+  
+}
+
+.btn__primary {
+  background-color: #e40712;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Simulate pixelation effect */
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 4px;
+  margin: 1rem 0;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn__primary:focus,
+.btn__primary:hover {
+  background-color: #c2050f; /* Darken on hover/focus */
+}
+
+.btn__primary:active {
+  transform: translateY(2px); /* Simulate button press */
+}
+
+@keyframes play {
+  0% { background-position: 0px; }
+  100% {background-position: -2378px;}
+}
+
+@keyframes play-mobile {
+  0% { background-position: 0px; }
+  100% {background-position: -1060px;}
+  
+}
+
+/*
+@media screen and (max-width: 768px) {
+  .corridor {
+    background-image: url('public/sprites/sprites-mobile-1.png');
+    width: 360px;
+    height: 400px; 
+    animation: play-mobile 3s steps(3) infinite;
+    
   }
 }
+*/
+
