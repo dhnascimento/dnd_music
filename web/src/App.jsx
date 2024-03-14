@@ -1,16 +1,19 @@
 import logo from './logo.svg';
 import Start from './components/Start';
+import stages from './helpers/stages';
 import InfiniteCorridor from './components/InfiniteCorridor';
 import './App.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { mockResponse } from './helpers/mockResponse';
 
 function App() {
-  const [code, setCode] = React.useState(null);
-  const [userData, setUserData] = React.useState(null);
-  const [mockMode, setMockMode] = React.useState(false);
+  const [code, setCode] = useState(null);
+  const [currentStage, setCurrentStage] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [mockMode, setMockMode] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const params = new URLSearchParams(document.location.search);
 
     const handleCodeRequest = async () => {
@@ -61,7 +64,13 @@ function App() {
           Edit <code>src/App.js</code> and save to reload!
         </p>
       </header> */}
-      <InfiniteCorridor />
+      <InfiniteCorridor
+        hasStarted={hasStarted}
+        setHasStarted={setHasStarted}
+        currentStage={currentStage}
+        stageData={stages[currentStage]}
+        setCurrentStage={setCurrentStage}
+      />
       {/* <Start code={code} userData={userData} /> */}
     </div>
   );
