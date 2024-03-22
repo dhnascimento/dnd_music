@@ -11,7 +11,9 @@ services:
       - ./web:/app
       - /app/node_modules
     env_file:
-      - ./env/web.env    
+      - ./env/web.env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   nginx:
     image: "nginx:stable-alpine"
     ports:
@@ -24,7 +26,7 @@ services:
       context: ./dockerfiles
       dockerfile: php.dockerfile
     ports:
-      - "9000:9000"  
+      - "9000:9000"
     volumes:
       - ./server:/var/www/html:delegated
       - ./env/php.env:/var/www/html/.env
@@ -36,4 +38,3 @@ services:
       - ./server:/var/www/html
 
 
-   
