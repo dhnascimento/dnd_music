@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function TextBox({ paragraphs, isTyping, setIsTyping, allParagraphsTyped, setAllParagraphsTyped, speed = 80 }) {
+export default function TextBox({
+    paragraphs,
+    isTyping,
+    handleTyping,
+    setTypedParagraphs,
+    setAllParagraphsTyped,
+    typedParagraphs,
+    speed = 60
+}) {
     const [currentText, setCurrentText] = useState(''); // Text being typed
     const [currentParagraph, setCurrentParagraph] = useState(0); // Keep track of paragraph being typed
-    const [typedParagraphs, setTypedParagraphs] = useState(new Array(paragraphs.length).fill(false)); // Flag if paragraph has been fully typed
 
     useEffect(() => {
         if (isTyping) {
@@ -19,13 +26,13 @@ export default function TextBox({ paragraphs, isTyping, setIsTyping, allParagrap
                     setCurrentText(currentText === '' ? '' : paragraphs[currentParagraph - 1] || '');
                     const updatedTypedParagraphs = [...typedParagraphs];
                     // Mark previous paragraph as typed
-                    updatedTypedParagraphs[currentParagraph] = true; 
+                    updatedTypedParagraphs[currentParagraph] = true;
                     setTypedParagraphs(updatedTypedParagraphs);
                     // Check for last paragraph
-                    if (currentParagraph > paragraphs.length) { 
-                        setIsTyping(false);
+                    if (currentParagraph > paragraphs.length) {
+                        handleTyping();
                         setAllParagraphsTyped(true);
-                      }
+                    }
                 }
             }, speed);
 
@@ -36,12 +43,12 @@ export default function TextBox({ paragraphs, isTyping, setIsTyping, allParagrap
     return (
         <div className="text_box">
             {paragraphs.map((paragraph, index) => {
-                return(
-                <p key={index}>
-                    {typedParagraphs[index] ? paragraph : (isTyping && currentParagraph === index ? currentText : '')}
-                </p>
+                return (
+                    <p key={index}>
+                        {typedParagraphs[index] ? paragraph : (isTyping && currentParagraph === index ? currentText : '')}
+                    </p>
                 )
-            })}   
-      </div>
+            })}
+        </div>
     );
 }
