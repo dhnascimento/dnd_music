@@ -38,15 +38,15 @@
 
 .text_box {
   /* Rectangle 1 */
-box-sizing: border-box;
-min-width: 400px;
-width: 600px;
-min-height: 200px;
-color: #fff;
-background: linear-gradient(180deg, #0B05DB 0%, #02004A 100%);
-border: 2px solid #FFFFFF;
-border-radius: 7px;
-transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-sizing: border-box;
+  min-width: 400px;
+  width: 600px;
+  min-height: 200px;
+  color: #fff;
+  background: linear-gradient(180deg, #0B05DB 0%, #02004A 100%);
+  border: 2px solid #FFFFFF;
+  border-radius: 7px;
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   p {
     padding: 0 0.5rem;
@@ -57,7 +57,8 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 
-.corridor, .corridorMobile {
+.corridor,
+.corridorMobile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +66,8 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .corridor {
-  background-image: url('public/sprites/sprites-1.png'); /* Ensure no tiling of the sprite sheet */
+  background-image: url('public/sprites/sprites-1.png');
+  /* Ensure no tiling of the sprite sheet */
   background-repeat: no-repeat;
   width: 800px;
   height: 600px;
@@ -77,9 +79,10 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   background-image: url('public/sprites/sprites-mobile-1.png');
   background-repeat: no-repeat;
   width: 360px;
-  height: 400px; /* Adjust height for mobile layout */
+  height: 400px;
+  /* Adjust height for mobile layout */
   animation: play-mobile 3s steps(3) forwards;
-  
+
 }
 
 .btn__wrapper {
@@ -93,7 +96,8 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: none;
   font-size: 16px;
   text-transform: uppercase;
-  letter-spacing: 1px; /* Simulate pixelation effect */
+  letter-spacing: 1px;
+  /* Simulate pixelation effect */
   cursor: pointer;
   display: inline-block;
   border-radius: 4px;
@@ -104,16 +108,23 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
 .btn__primary:focus,
 .btn__primary:hover {
-  background-color: #c2050f; /* Darken on hover/focus */
+  background-color: #c2050f;
+  /* Darken on hover/focus */
 }
 
 .btn__primary:active {
-  transform: translateY(2px); /* Simulate button press */
+  transform: translateY(2px);
+  /* Simulate button press */
 }
 
 @keyframes play {
-  0% { background-position: 0px; }
-  100% {background-position: -2385px;}
+  0% {
+    background-position: 0px;
+  }
+
+  100% {
+    background-position: -2385px;
+  }
 }
 
 
@@ -122,10 +133,9 @@ transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   .corridor {
     background-image: url('public/sprites/sprites-mobile-1.png');
     width: 360px;
-    height: 400px; 
+    height: 400px;
     animation: play-mobile 3s steps(3) infinite;
-    
+
   }
 }
 */
-
